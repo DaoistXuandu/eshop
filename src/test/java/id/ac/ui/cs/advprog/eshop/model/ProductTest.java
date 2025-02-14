@@ -16,18 +16,39 @@ public class ProductTest {
         this.product.setProductQuantity(100);
     }
 
-    @Test
-    void testGetProductId() {
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", product.getProductId());
+    @Nested
+    class PositiveTests {
+        @Test
+        void testGetProductId() {
+            assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", product.getProductId());
+        }
+
+        @Test
+        void testGetProductName() {
+            assertEquals("Sampo Cap Bambang", product.getProductName());
+        }
+
+        @Test
+        void testGetProductQuantity() {
+            assertEquals(100, product.getProductQuantity());
+        }
     }
 
-    @Test
-    void testGetProductName() {
-        assertEquals("Sampo Cap Bambang", product.getProductName());
-    }
+    @Nested
+    class NegativeTests {
+        @Test
+        void testGetProductIdNegative() {
+            assertNotEquals("eb558e9f-1c39-460e-8860-71af6af63bd7", product.getProductId());
+        }
 
-    @Test
-    void testGetProductQuantity() {
-        assertEquals(100, product.getProductQuantity());
+        @Test
+        void testGetProductNameNegative() {
+            assertNotEquals("Sampo Cap Bamng", product.getProductName());
+        }
+
+        @Test
+        void testGetProductQuantityNegative() {
+            assertNotEquals(101, product.getProductQuantity());
+        }
     }
 }
