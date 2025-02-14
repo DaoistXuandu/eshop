@@ -38,17 +38,17 @@ public class ProductTest {
     class NegativeTests {
         @Test
         void testGetProductIdNegative() {
-            assertNotEquals("eb558e9f-1c39-460e-8860-71af6af63bd7", product.getProductId());
+            assertNotEquals("eb558e9f-1c39-460e-8860-71af6af639d7", product.getProductId());
         }
 
         @Test
         void testGetProductNameNegative() {
-            assertNotEquals("Sampo Cap Bamng", product.getProductName());
+            assertNotEquals("Sampo Cap Bab", product.getProductName());
         }
 
         @Test
         void testGetProductQuantityNegative() {
-            assertNotEquals(101, product.getProductQuantity());
+            assertNotEquals(102, product.getProductQuantity());
         }
     }
 }
