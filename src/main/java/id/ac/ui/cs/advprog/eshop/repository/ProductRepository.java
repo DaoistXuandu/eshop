@@ -12,7 +12,7 @@ public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
-        product.setProductId(productData.size() + "      ");
+        product.setProductId(productData.size() + "");
         productData.add(product);
         return product;
     }
@@ -38,5 +38,11 @@ public class ProductRepository {
 
     public Iterator<Product> findAll() {
         return productData.iterator();
+    }
+
+    public Product delete(String productId) {
+        Product product = findById(productId);
+        productData.remove(product);
+        return product;
     }
 }
