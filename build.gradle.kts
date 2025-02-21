@@ -1,6 +1,7 @@
 plugins {
 	java
 	jacoco
+	id("org.sonarqube") version "4.3.1.3277"
 	id("org.springframework.boot") version "3.4.2"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -19,6 +20,15 @@ configurations {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
 }
+
+sonarqube {
+	properties {
+		property("sonar.projectKey", project.findProperty("sonar.projectKey") ?: "DaoistXuandu_eshop")
+		property("sonar.organization", project.findProperty("sonar.organization") ?: "daoistxuandu")
+		property("sonar.host.url", project.findProperty("sonar.host.url") ?: "https://sonarcloud.io")
+	}
+}
+
 
 repositories {
 	mavenCentral()
@@ -78,3 +88,4 @@ tasks.register<Test>("functionalTest"){
 tasks.withType<Test>().configureEach{
 	useJUnitPlatform()
 }
+

@@ -37,11 +37,7 @@ jobs:
           java-version: "23"
           cache: "gradle"
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+      - name: Run SonarQube Analysis
+        run: ./gradlew sonarqube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=DaoistXuandu_eshop
-            -Dsonar.organization=daoistxuandu
