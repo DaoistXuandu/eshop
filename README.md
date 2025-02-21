@@ -14,6 +14,10 @@ After running the analysis, there are no major issues regarding code quality, ap
 
 One limitation of the current setup is that I require to pushing changes directly to the main branch to obtain the full analysis results and i think this is not ideal as catching issues earlier in the development process would improve efficiency and reduce the risk of introducing problems into the main codebase. A more optimized approach would involve integrating the analysis into the pre-merge workflow to detect issues before they reach production.
 
+Also during the exercise I already have 100% coverage on all of function
+
+![Data Coverage](https://cdn.discordapp.com/attachments/1268572223157960845/1342481340070887425/Screenshot_2025-02-21_at_20.00.48.png?ex=67b9caad&is=67b8792d&hm=80e0100021f245f6ac132e7402472ea23513275560ab88b73291a52f9d5d02c7&)
+
 **Reflection 2**
 ````
 Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
