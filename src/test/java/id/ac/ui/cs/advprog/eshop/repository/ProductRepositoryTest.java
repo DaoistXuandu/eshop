@@ -43,6 +43,18 @@ public class ProductRepositoryTest {
         Iterator<Product> productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testCreateWhenProductIdIsNull() {
+        Product product = new Product();
+        product.setProductName("Shampoo X");
+        product.setProductQuantity(100);
+
+        Product createdProduct = productRepository.create(product);
+        assertNotNull(createdProduct.getProductId()); // Now always unique
+        assertFalse(createdProduct.getProductId().isEmpty());
+    }
+
     @Test
     void testFindAllIfMoreThanOneProduct() {
         Product product1 = new Product();
