@@ -1,3 +1,30 @@
+[Link Deployment](https://overseas-cardinal-xuandu-dad35b97.koyeb.app/)
+
+# WEEK 2
+**Reflection 1**
+````
+List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them.
+````
+
+Code Qualities that i solve and encouter
+- multiple unused import, so i fixed the import and remove the unused part and remain the important one
+- Empty setup function, in the previous file RepositoryTest i create a setup function that has no instruction and make it an empty file and so i remove it in this commit 
+
+After running the analysis, there are no major issues regarding code quality, apart from the need for an additional review to ensure maintainability. Since maintainability often requires a second perspective, it's not something I can fully address on my own. However, the workflow and setup outlined in the tutorial have been helpful in identifying potential areas for improvement.
+
+One limitation of the current setup is that I require to pushing changes directly to the main branch to obtain the full analysis results and i think this is not ideal as catching issues earlier in the development process would improve efficiency and reduce the risk of introducing problems into the main codebase. A more optimized approach would involve integrating the analysis into the pre-merge workflow to detect issues before they reach production.
+
+**Reflection 2**
+````
+Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
+````
+
+The current implementation meets the definition of Continuous Integration (CI) by automatically running tests on every push and pull request. This ensures that code changes are verified before merging, helping to catch issues early. Additionally, the SonarCloud analysis step improves code quality by identifying potential bugs and maintainability concerns. However, while CI is well-implemented, the setup does not include an automated deployment process, meaning it does not fully meet the definition of Continuous Deployment (CD). The Scorecard workflow enhances security by analyzing supply chain risks and enforcing branch protection but does not contribute to CI/CD automation for delivering software to users.
+
+To achieve full Continuous Deployment, the pipeline should be extended to include automated deployment steps. This can be done by adding a job that deploys successful builds to a staging or production environment after tests pass. Tools like GitHub Actions, GitLab CI/CD, or third-party services such as AWS CodeDeploy, Kubernetes, or Firebase Hosting can handle this process. Additionally, implementing feature flags and automated rollback mechanisms would ensure safe deployments by allowing quick rollbacks if an issue is detected in production.
+
+# WEEK 1
+
 **Reflection 1**  
 During this module, I implemented two new features using Spring Boot while adhering to clean code principles and secure coding practices. I ensured that variables, methods, and class names were meaningful and descriptive, making the codebase more readable and maintainable. Controller methods were correctly utilized to handle incoming HTTP requests and route them to service methods, keeping the business logic separate. The repository layer was used efficiently to manage database interactions, promoting a clean architecture.
 
