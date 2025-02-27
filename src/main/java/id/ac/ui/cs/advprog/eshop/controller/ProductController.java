@@ -1,17 +1,36 @@
 package id.ac.ui.cs.advprog.eshop.controller;
-
+import id.ac.ui.cs.advprog.eshop.model.Car;
 import id.ac.ui.cs.advprog.eshop.model.Product;
+import id.ac.ui.cs.advprog.eshop.service.CarService;
+import id.ac.ui.cs.advprog.eshop.service.CarServiceImpl;
+import id.ac.ui.cs.advprog.eshop.service.ProductServiceImpl;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+    @Autowired
+    private CarServiceImpl carservice;
+
+    @GetMapping("/createCar")
+    public String createCar(Model model) {
+        Car car = new Car();
+        model.addAttribute("car", car);
+        return "createCar";
+    }
+
+    @PostMapping("/createCar")
+    public String createCarPost(@ModelAttribute("car") Car car, Model model) {
+        carservice.create(car);
+        return "redirect:/listCar";
+    }
+
     @Autowired
     private ProductService service;
 
