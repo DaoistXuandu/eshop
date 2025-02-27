@@ -31,6 +31,28 @@ public class ProductController {
         return "redirect:/listCar";
     }
 
+    @GetMapping("/listCar")
+    public String carListPage(Model model) {
+        List<Car> allCars = carservice.findAll();
+        model.addAttribute("cars", allCars);
+        return "carList";
+    }
+
+    @GetMapping("/editCar/{carId}")
+    public String editCar(@PathVariable String carId, Model model) {
+        Car car = carservice.findById(carId);
+        model.addAttribute("car", car);
+        return "editCar";
+    }
+
+    @PostMapping("/editCar")
+    public String editCarPost(@ModelAttribute("car") Car car, Model model) {
+        System.out.println(car.getCarId());
+        carservice.update(car.getCarId(), car);
+
+        return "redirect:listCar";
+    }
+
     @Autowired
     private ProductService service;
 
