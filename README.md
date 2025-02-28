@@ -61,6 +61,7 @@ I adhered to DIP by ensuring that high-level modules, such as controllers, depen
     - The absence of SOLID principles results in a codebase that is more error-prone, less modular, and harder to maintain.
     - This leads to increased development time, more challenging debugging sessions, and a system that is less adaptable to future changes or scaling needs.git
 
+
 # WEEK 2
 **Reflection 1**
 ````
