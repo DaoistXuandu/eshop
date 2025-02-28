@@ -65,6 +65,10 @@ tasks.test{
 
 tasks.jacocoTestReport{
 	dependsOn(tasks.test)
+	reports {
+		xml.required.set(true)  // SonarQube needs XML report
+		html.required.set(true) // Optional: Generates an HTML report for local viewing
+	}
 }
 
 tasks.register<Test>("unitTest"){
