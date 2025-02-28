@@ -1,5 +1,66 @@
 [Link Deployment](https://overseas-cardinal-xuandu-dad35b97.koyeb.app/)
 
+# WEEK 3
+````
+1) Explain what principles you apply to your project!
+````
+**Single Responsibility Principle (SRP):**  
+By separating each class into its own file, I ensured that every class has only one responsibility. For example, CarController now strictly handles car-related requests without inheriting product-related behavior from ProductController. Similarly, the Repository, Service, Model, and Controller layers each focus on one aspect: the Repository manages database operations, the Service handles business logic, the Model defines the object entity, and the Controller manages HTTP requests. This approach guarantees that each class only changes for one reason.
+
+**Open-Closed Principle (OCP):**  
+I designed my code to be open for extension but closed for modification. By defining clear interfaces for repositories and services (such as CarRepositoryInterface and CarService), I can add new behaviors or switch implementations without altering the existing, well-tested code. This means that if I need to support a new persistence mechanism or business logic, I can simply extend the system by implementing new classes that adhere to these interfaces, rather than modifying the current ones.
+
+**Liskov Substitution Principle (LSP):**  
+I ensured that my system complies with the LSP by designing the application so that any subclass or alternative implementation of an interface can replace another without affecting the program’s correctness. For instance, by relying on service and repository interfaces rather than concrete classes, I can swap out a CarRepository implementation with another that meets the same contract without breaking the functionality of the controllers or services that depend on it.
+
+**Interface Segregation Principle (ISP):**  
+I implemented ISP by breaking down large, monolithic interfaces into smaller, more focused ones. Each repository or service interface now contains only the methods relevant to its specific domain, ensuring that classes are not forced to depend on methods they don't use. This makes the codebase more modular and easier to maintain, as clients interact only with the precise functionality they require, rather than being burdened by unnecessary methods.
+
+**Dependency Inversion Principle (DIP):**  
+I adhered to DIP by ensuring that high-level modules, such as controllers, depend on abstractions rather than concrete implementations. This was achieved through constructor injection and by defining interfaces for services and repositories. With controllers interacting solely with these abstractions, I can easily swap out or mock implementations for testing or future enhancements without affecting the overall system, thus promoting flexibility and maintainability.
+
+````
+2) Explain the advantages of applying SOLID principles to your project with examples.
+````
+- **Ease of Maintenance (SRP):**
+    - Every class in my project has a single, well-defined responsibility.
+    - For example, if I need to update business logic, I only modify the Service layer without touching the Controller or Repository. This separation minimizes unexpected side effects and simplifies future maintenance.
+
+- **Improved Testability (DIP & Abstraction):**
+    - By depending on abstractions, I can easily substitute real components with mocks during testing.
+    - For instance, since CarController depends on a CarService interface, I can inject a mock CarService for unit tests. This isolation leads to more focused and reliable tests, ensuring that each component works correctly on its own.
+
+- **Enhanced Flexibility (OCP):**
+    - The design is open for extension but closed for modification, meaning new features can be added without altering stable, tested code.
+    - For example, if I need to add new behaviors to the Car domain, I can extend the current implementation through additional classes or methods without risking the introduction of bugs in existing functionality.
+
+- **Modular and Decoupled Architecture:**
+    - Applying SOLID principles results in a system where each component (Repository, Service, Model, Controller) is decoupled and independently manageable.
+    - This modularity makes the project more adaptable to changes, easier to understand, and simpler to debug.
+
+````
+3) Explain the disadvantages of not applying SOLID principles to your project with examples.
+````
+- **Reduced Maintainability (SRP Violation):**
+    - Without SRP, classes take on multiple responsibilities, making them harder to understand and maintain.
+    - *Example:* If CarController manages both HTTP requests and business logic, a change in the business rules may require modifications to the controller, potentially introducing unintended side effects in request handling.
+
+- **Harder to Test (DIP Violation):**
+    - Not depending on abstractions forces components to rely on concrete implementations, which complicates unit testing.
+    - *Example:* If CarController directly creates or tightly couples with a specific CarService implementation, it becomes difficult to inject mocks or stubs for isolated testing, leading to brittle tests.
+
+- **Limited Flexibility (OCP Violation):**
+    - When code is not designed to be extended, adding new features means altering existing, stable code, increasing the risk of bugs.
+    - *Example:* Adding new behavior to the Car domain would require direct changes in the CarService or CarRepository classes, rather than simply extending their functionality through new classes.
+
+- **High Coupling and Overly Broad Interfaces (ISP Violation):**
+    - Without ISP, interfaces might include methods that are not needed by all clients, leading to tight coupling and unnecessary complexity.
+    - *Example:* A single large interface for all product operations might force the CarRepository to implement methods irrelevant to car operations, making the system harder to understand and modify.
+
+- **Overall Impact on Development:**
+    - The absence of SOLID principles results in a codebase that is more error-prone, less modular, and harder to maintain.
+    - This leads to increased development time, more challenging debugging sessions, and a system that is less adaptable to future changes or scaling needs.git
+
 # WEEK 2
 **Reflection 1**
 ````
