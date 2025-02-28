@@ -46,13 +46,19 @@ public class CarRepositoryTest {
 
     @Test
     public void testFindCarById() {
+        Car foundCar = carRepository.findById("No car");
+        assertNull(foundCar);
+
         Car car = new Car();
         car.setCarName("Find Me");
         Car createdCar = carRepository.create(car);
 
-        Car foundCar = carRepository.findById(createdCar.getCarId());
+        foundCar = carRepository.findById(createdCar.getCarId());
         assertNotNull(foundCar);
         assertEquals("Find Me", foundCar.getCarName());
+
+        foundCar = carRepository.findById("Invalid Car");
+        assertNull(foundCar);
     }
 
     @Test

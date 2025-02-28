@@ -16,6 +16,7 @@ public class CarRepository {
             UUID uuid = UUID.randomUUID();
             car.setCarId(uuid.toString());
         }
+
         carData.add(car);
         return car;
     }
@@ -29,6 +30,7 @@ public class CarRepository {
             if (car.getCarId().equals(id)) {
                 return car;
             }
+
         }
         return null;
     }
