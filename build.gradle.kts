@@ -40,6 +40,7 @@ val webdrivermanagerVersion = "5.6.3"
 val junitJupiterVersion = "5.9.1"
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
@@ -65,10 +66,6 @@ tasks.test{
 
 tasks.jacocoTestReport{
 	dependsOn(tasks.test)
-	reports {
-		xml.required.set(true)  // SonarQube needs XML report
-		html.required.set(true) // Optional: Generates an HTML report for local viewing
-	}
 }
 
 tasks.register<Test>("unitTest"){
