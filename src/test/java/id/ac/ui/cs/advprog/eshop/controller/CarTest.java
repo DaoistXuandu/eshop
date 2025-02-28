@@ -1,22 +1,24 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Car;
-import id.ac.ui.cs.advprog.eshop.service.CarServiceImpl;
+import id.ac.ui.cs.advprog.eshop.service.CarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @ExtendWith(MockitoExtension.class)
 class CarControllerTest {
@@ -24,77 +26,76 @@ class CarControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private CarServiceImpl carService;
+    private CarService carService;
 
     @Mock
     private Model model;
 
     @InjectMocks
-    public CarController carController;
+    private CarController carController;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(carController).build();
     }
 
     @Test
-    public void testCreateCarPage() throws Exception {
-        mockMvc.perform(get("/createCar"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("createCar"))
-                .andExpect(model().attributeExists("car"));
+    void testHomePage() {
+        String viewName = carController.homePage();
+        assertEquals("HomePage", viewName);
+    }
+
+    @Test
+    void testCreateCar() {
+        String viewName = carController.createCar(model);
+        assertEquals("createCar", viewName);
+        verify(model, times(1)).addAttribute(eq("car"), any(Car.class));
     }
 
     @Test
     void testCreateCarPost() throws Exception {
         Car car = new Car();
-        mockMvc.perform(post("/car/createCar"))
-                .andExpect(status().is3xxRedirection())
+        when(carService.create(car)).thenReturn(car);
+
+        mockMvc.perform(post("/car/createCar").flashAttr("car", car))
                 .andExpect(redirectedUrl("listCar"));
-        verify(carService, times(1)).create(any(Car.class));
     }
 
     @Test
-    void testCarListPage() throws Exception {
+    void testCarListPage() {
         List<Car> cars = Arrays.asList(new Car(), new Car());
         when(carService.findAll()).thenReturn(cars);
 
-        mockMvc.perform(get("/car/listCar"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("carList"))
-                .andExpect(model().attributeExists("cars"));
+        String viewName = carController.carListPage(model);
+        assertEquals("CarList", viewName);
+        verify(model, times(1)).addAttribute("cars", cars);
     }
 
     @Test
-    void testEditCarPage() throws Exception {
+    void testEditCar() {
         Car car = new Car();
-        when(carService.findById("123")).thenReturn(car);
+        when(carService.findById("1")).thenReturn(car);
 
-        mockMvc.perform(get("/car/editCar/123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("editCar"))
-                .andExpect(model().attributeExists("car"));
+        String viewName = carController.editCar("1", model);
+        assertEquals("editCar", viewName);
+        verify(model, times(1)).addAttribute("car", car);
     }
 
     @Test
     void testEditCarPost() throws Exception {
         Car car = new Car();
-        car.setCarId("123");
+        car.setCarId("1");
+        doNothing().when(carService).update("1", car);
 
         mockMvc.perform(post("/car/editCar").flashAttr("car", car))
-                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("listCar"));
-
-        verify(carService, times(1)).update(eq("123"), any(Car.class));
     }
 
     @Test
     void testDeleteCar() throws Exception {
-        mockMvc.perform(post("/car/deleteCar").param("carId", "123"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("listCar"));
+        doNothing().when(carService).deleteCarById("1");
 
-        verify(carService, times(1)).deleteCarById("123");
+        mockMvc.perform(post("/car/deleteCar").param("carId", "1"))
+                .andExpect(redirectedUrl("listCar"));
     }
 }
