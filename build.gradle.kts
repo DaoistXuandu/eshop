@@ -66,6 +66,11 @@ tasks.test{
 
 tasks.jacocoTestReport{
 	dependsOn(tasks.test)
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(false)
+	}
 }
 
 tasks.register<Test>("unitTest"){
@@ -89,4 +94,6 @@ tasks.register<Test>("functionalTest"){
 tasks.withType<Test>().configureEach{
 	useJUnitPlatform()
 }
+
+
 
