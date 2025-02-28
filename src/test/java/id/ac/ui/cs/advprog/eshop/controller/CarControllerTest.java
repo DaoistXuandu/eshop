@@ -18,9 +18,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-
-
 public class CarControllerTest {
 
     private MockMvc mockMvc;
@@ -40,6 +37,13 @@ public class CarControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(carController).build();
     }
 
+    @Test
+    public void testCreateCarPage() throws Exception {
+        mockMvc.perform(get("/createCar"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("createCar"))
+                .andExpect(model().attributeExists("car"));
+    }
 
     @Test
     void testCreateCarPost() throws Exception {
