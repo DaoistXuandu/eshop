@@ -64,7 +64,7 @@ public class PaymentTest {
     @Test
     void testCreatePaymentMethodInvalidStatus() {
         assertThrows(IllegalArgumentException.class, () -> new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "MEOW", PaymentStatus.SUCCESS.getValue(), voucher_info));
+                "MEOW", PaymentStatus.getValue(), voucher_info));
     }
 
     @Test
