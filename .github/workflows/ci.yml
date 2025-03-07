@@ -21,23 +21,3 @@ jobs:
 
       - name: Run unit tests
         run: ./gradlew test
-
-  sonar:
-    name: SonarCloud Analysis
-    needs: test  # Ensure tests finish before Sonar runs
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Check out the Git repository
-        uses: actions/checkout@v4
-
-      - name: Set up Java toolchain
-        uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "23"
-          cache: "gradle"
-
-      - name: Run SonarQube Analysis
-        run: ./gradlew sonarqube
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
