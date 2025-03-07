@@ -44,14 +44,27 @@ class PaymentRepositoryTest {
     }
 
     @Test
-    void testSaveCreate() {
-        Payment payment0 = payments.get(1);
-        paymentRepository.save(payment0);
-        Payment payment1 = payments.get(0);
-        paymentRepository.save(payment1);
+    void testSaveInvalidId() {
+        Payment payment = payments.get(0);
+        paymentRepository.save(payment);
+        assertThrows(IllegalArgumentException.class, () -> paymentRepository.save(payment));
+    }
 
-        Payment findResult = paymentRepository.findById(payments.get(0).getId());
-        assertSame(this.bank_info, findResult.getPaymentData());
+    @Test
+    void testSaveValidBank() {
+        Map <String, String> currentBank = new HashMap<>();
+        currentBank.put("bankName", "BANK A");
+        currentBank.put("referenceCode", "1234202893");
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.BANK_TRANSFER.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentBank
+                );
+
+        paymentRepository.save(payment);
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+        assertSame(currentBank, findResult.getPaymentData());
         assertEquals("BANK A", findResult.getPaymentData().get("bankName"));
         assertEquals("1234202893", findResult.getPaymentData().get("referenceCode"));
 
@@ -61,25 +74,162 @@ class PaymentRepositoryTest {
     }
 
     @Test
-    void testSaveUpdate() {
-        Payment payment = payments.get(0);
+    void testSaveInvalidBankBankName() {
+        Map <String, String> currentBank = new HashMap<>();
+        currentBank.put("referenceCode", "1234202893");
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.BANK_TRANSFER.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentBank
+        );
+
         paymentRepository.save(payment);
-        Payment newPayment = new Payment(payment.getId(),
-                payment.getMethod(),
-                PaymentStatus.REJECTED.getValue(),
-                payment.getPaymentData());
-        paymentRepository.save(newPayment);
-
-        Payment findResult = paymentRepository.findById(payments.get(0).getId());
-
-        assertSame(this.bank_info, findResult.getPaymentData());
-        assertEquals("BANK A", findResult.getPaymentData().get("bankName"));
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+        assertSame(currentBank, findResult.getPaymentData());
         assertEquals("1234202893", findResult.getPaymentData().get("referenceCode"));
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
         assertEquals(PaymentMethod.BANK_TRANSFER.getValue(), findResult.getMethod());
         assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
     }
+
+    @Test
+    void testSaveInvalidBankReferenceCode() {
+        Map <String, String> currentBank = new HashMap<>();
+        currentBank.put("bankName", "BANK A");
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.BANK_TRANSFER.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentBank
+        );
+
+        paymentRepository.save(payment);
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+        assertSame(currentBank, findResult.getPaymentData());
+        assertEquals("BANK A", findResult.getPaymentData().get("bankName"));
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.BANK_TRANSFER.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+    }
+
+    @Test
+    void testSaveValidVoucher() {
+        Map <String, String> currentVoucher = new HashMap<>();
+        currentVoucher.put("voucherCode", "ESHOP1234ABC5678");
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.VOUCHER_CODE.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentVoucher
+        );
+
+        paymentRepository.save(payment);
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+
+        assertSame(currentVoucher, findResult.getPaymentData());
+        assertEquals("voucherCode", findResult.getPaymentData().get("ESHOP1234ABC5678"));
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), findResult.getStatus());
+    }
+
+    @Test
+    void testSaveInvalidVoucherNoData() {
+        Map <String, String> currentVoucher = new HashMap<>();
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.VOUCHER_CODE.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentVoucher
+        );
+
+        paymentRepository.save(payment);
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+
+        assertSame(currentVoucher, findResult.getPaymentData());
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+    }
+
+    @Test
+    void testSaveInvalidVoucherLengthError() {
+        Map <String, String> currentVoucher = new HashMap<>();
+        String voucher_name = "ESHOP1234ABC567801010";
+
+        currentVoucher.put("voucherCode", voucher_name);
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.VOUCHER_CODE.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentVoucher
+        );
+
+        paymentRepository.save(payment);
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+
+        assertSame(currentVoucher, findResult.getPaymentData());
+        assertEquals("voucherCode", findResult.getPaymentData().get(voucher_name));
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+    }
+
+    @Test
+    void testSaveInvalidVoucherESHOPInit() {
+        Map <String, String> currentVoucher = new HashMap<>();
+        String voucher_name = "1234ABC567801010";
+
+        currentVoucher.put("voucherCode", voucher_name);
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.VOUCHER_CODE.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentVoucher
+        );
+
+        paymentRepository.save(payment);
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+
+        assertSame(currentVoucher, findResult.getPaymentData());
+        assertEquals("voucherCode", findResult.getPaymentData().get(voucher_name));
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+    }
+
+    @Test
+    void testSaveInvalidVoucherLimitNumericalDigit() {
+        Map <String, String> currentVoucher = new HashMap<>();
+        String voucher_name = "ESHOP1234ABC01010";
+
+        currentVoucher.put("voucherCode", voucher_name);
+        Payment payment = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.VOUCHER_CODE.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentVoucher
+        );
+
+        paymentRepository.save(payment);
+        Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
+
+        assertSame(currentVoucher, findResult.getPaymentData());
+        assertEquals("voucherCode", findResult.getPaymentData().get(voucher_name));
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+    }
+
+
 
     @Test
     void testFindByIdIfIdFound() {
