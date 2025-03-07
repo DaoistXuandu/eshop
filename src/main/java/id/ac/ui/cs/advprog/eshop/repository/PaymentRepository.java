@@ -12,6 +12,7 @@ public class PaymentRepository {
     public Payment save(Payment payment) {
         int i = 0;
         for (Payment paymentData : payments) {
+            System.out.println("TT" + paymentData.getId() + " " + payment.getId());
             if (paymentData.getId().equals(payment.getId())) {
                 payments.remove(i);
                 payments.add(i, payment);
@@ -21,6 +22,7 @@ public class PaymentRepository {
         }
 
         payments.add(payment);
+        System.out.println("Masuk sini" + payments.size());
         return payment;
     }
 

@@ -49,13 +49,13 @@ class PaymentRepositoryTest {
         Payment result = paymentRepository.save(payment);
 
         Payment findResult = paymentRepository.findById(payments.get(0).getId());
-        assertSame(this.bank_info, payment.getPaymentData());
-        assertEquals("BANK A", payment.getPaymentData().get("bankName"));
-        assertEquals("1234202893", payment.getPaymentData().get("referenceCode"));
+        assertSame(this.bank_info, findResult.getPaymentData());
+        assertEquals("BANK A", findResult.getPaymentData().get("bankName"));
+        assertEquals("1234202893", findResult.getPaymentData().get("referenceCode"));
 
-        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
-        assertEquals(PaymentMethod.BANK_TRANSFER.getValue(), payment.getMethod());
-        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.BANK_TRANSFER.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), findResult.getStatus());
     }
 
     @Test
@@ -66,15 +66,17 @@ class PaymentRepositoryTest {
                 payment.getMethod(),
                 PaymentStatus.REJECTED.getValue(),
                 payment.getPaymentData());
+        paymentRepository.save(newPayment);
 
         Payment findResult = paymentRepository.findById(payments.get(0).getId());
-        assertSame(this.bank_info, payment.getPaymentData());
-        assertEquals("BANK A", payment.getPaymentData().get("bankName"));
-        assertEquals("1234202893", payment.getPaymentData().get("referenceCode"));
 
-        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
-        assertEquals(PaymentMethod.BANK_TRANSFER.getValue(), payment.getMethod());
-        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
+        assertSame(this.bank_info, findResult.getPaymentData());
+        assertEquals("BANK A", findResult.getPaymentData().get("bankName"));
+        assertEquals("1234202893", findResult.getPaymentData().get("referenceCode"));
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
+        assertEquals(PaymentMethod.BANK_TRANSFER.getValue(), findResult.getMethod());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
     }
 
     @Test
