@@ -103,8 +103,8 @@ public class PaymentServiceTest {
         assertEquals(findedPayment.getStatus(), PaymentStatus.REJECTED.getValue());
         assertEquals(orders.get(0).getStatus(), OrderStatus.FAILED.getValue());
 
-        newPayment.setStatus(PaymentStatus.SUCCESS.getValue());
-        Payment findedPayment2 = paymentService.getPayment(newPayment.getId());
+        Payment current_payment = paymentService.setStatus(findedPayment, PaymentStatus.SUCCESS.getValue());
+        Payment findedPayment2 = paymentService.getPayment(current_payment.getId());
         assertEquals(findedPayment2.getStatus(), PaymentStatus.SUCCESS.getValue());
         assertEquals(orders.get(0).getStatus(), OrderStatus.SUCCESS.getValue());
     }
@@ -116,8 +116,8 @@ public class PaymentServiceTest {
         assertEquals(findedPayment.getStatus(), PaymentStatus.SUCCESS.getValue());
         assertEquals(orders.get(0).getStatus(), OrderStatus.SUCCESS.getValue());
 
-        newPayment.setStatus(PaymentStatus.REJECTED.getValue());
-        Payment findedPayment2 = paymentService.getPayment(newPayment.getId());
+        Payment current_payment = paymentService.setStatus(findedPayment, PaymentStatus.REJECTED.getValue());
+        Payment findedPayment2 = paymentService.getPayment(current_payment.getId());
         assertEquals(findedPayment2.getStatus(), PaymentStatus.REJECTED.getValue());
         assertEquals(orders.get(0).getStatus(), OrderStatus.FAILED.getValue());
     }
