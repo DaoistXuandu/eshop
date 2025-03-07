@@ -40,7 +40,7 @@ public class Payment {
             this.method = method;
         }
         else{
-            throw new IllegalArgumentException(method + " Method is not valid");
+            throw new IllegalArgumentException("Method is not valid");
         }
     }
 }
