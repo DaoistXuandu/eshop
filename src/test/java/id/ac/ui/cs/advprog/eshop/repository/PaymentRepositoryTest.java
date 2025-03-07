@@ -29,7 +29,7 @@ class PaymentRepositoryTest {
         bank_info.put("referenceCode", "1234202893");
 
         voucher_info.put("voucherCode", "ESHOP1234ABC5678");
-        PaymentRepository = new PaymentRepository();
+        paymentRepository = new PaymentRepository();
 
         payments = new ArrayList<>();
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
@@ -83,7 +83,7 @@ class PaymentRepositoryTest {
             paymentRepository.save(payment);
         }
 
-        Payment findResult = paymentRepository.findById(paymentRepository.get(1).getId());
+        Payment findResult = paymentRepository.findById(payments.get(1).getId());
         assertEquals(payments.get(1).getId(), findResult.getId());
         assertEquals(payments.get(1).getMethod(), findResult.getMethod());
         assertEquals(payments.get(1).getStatus(), findResult.getStatus());
