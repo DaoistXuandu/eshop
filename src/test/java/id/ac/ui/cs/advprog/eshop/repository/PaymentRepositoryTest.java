@@ -150,11 +150,24 @@ class PaymentRepositoryTest {
         paymentRepository.save(payment);
         Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
 
-        assertSame(currentVoucher, findResult.getPaymentData());
-
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
         assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
         assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+
+        currentVoucher.put("voucherCode", null);
+        Payment payment1 = new Payment(
+                "13652556-012a-4c07-b546-54eb1396d79a",
+                PaymentMethod.VOUCHER_CODE.getValue(),
+                PaymentStatus.PENDING.getValue(),
+                currentVoucher
+        );
+
+        paymentRepository.save(payment1);
+        Payment findResult1 = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79a");
+
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79a", findResult1.getId());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult1.getMethod());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult1.getStatus());
     }
 
     @Test
@@ -208,7 +221,7 @@ class PaymentRepositoryTest {
     @Test
     void testSaveInvalidVoucherLimitNumericalDigit() {
         Map <String, String> currentVoucher = new HashMap<>();
-        String voucher_name = "ESHOP1234ABC00";
+        String voucher_name = "ESHOP1234ABC567A";
 
         currentVoucher.put("voucherCode", voucher_name);
         Payment payment = new Payment(

@@ -71,7 +71,6 @@ public class PaymentRepository {
     }
 
     public Payment findById(String id) {
-        System.out.println(payments.size() + " " + payments.get(0).getPaymentData().get("voucherCode"));
         for (Payment savedPayment : payments) {
             if (savedPayment.getId().equals(id)) {
                 return savedPayment;
