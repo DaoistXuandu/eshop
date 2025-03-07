@@ -130,7 +130,7 @@ class PaymentRepositoryTest {
         Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
 
         assertSame(currentVoucher, findResult.getPaymentData());
-        assertEquals("voucherCode", findResult.getPaymentData().get("ESHOP1234ABC5678"));
+        assertEquals("ESHOP1234ABC5678", findResult.getPaymentData().get("voucherCode"));
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
         assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
@@ -174,7 +174,7 @@ class PaymentRepositoryTest {
         Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
 
         assertSame(currentVoucher, findResult.getPaymentData());
-        assertEquals("voucherCode", findResult.getPaymentData().get(voucher_name));
+        assertEquals(voucher_name, findResult.getPaymentData().get("voucherCode"));
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
         assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
@@ -198,7 +198,7 @@ class PaymentRepositoryTest {
         Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
 
         assertSame(currentVoucher, findResult.getPaymentData());
-        assertEquals("voucherCode", findResult.getPaymentData().get(voucher_name));
+        assertEquals(voucher_name, findResult.getPaymentData().get("voucherCode"));
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
         assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
@@ -222,7 +222,7 @@ class PaymentRepositoryTest {
         Payment findResult = paymentRepository.findById("13652556-012a-4c07-b546-54eb1396d79b");
 
         assertSame(currentVoucher, findResult.getPaymentData());
-        assertEquals("voucherCode", findResult.getPaymentData().get(voucher_name));
+        assertEquals(voucher_name, findResult.getPaymentData().get("voucherCode"));
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", findResult.getId());
         assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
