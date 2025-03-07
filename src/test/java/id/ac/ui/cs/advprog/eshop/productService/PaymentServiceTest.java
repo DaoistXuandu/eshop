@@ -6,27 +6,20 @@ import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.model.Product;
-import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
-import id.ac.ui.cs.advprog.eshop.service.OrderServiceImpl;
+import id.ac.ui.cs.advprog.eshop.service.PaymentServiceImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceTest {
-    @InjectMocks
     PaymentServiceImpl paymentService;
-
-    @Mock
     PaymentRepository paymentRepository;
 
     List<Order> orders;
@@ -35,6 +28,8 @@ public class PaymentServiceTest {
 
     @BeforeEach
     void setUp() {
+        this.paymentRepository = new PaymentRepository();
+        this.paymentService = new PaymentServiceImpl();
         List<Product> products = new ArrayList<>();
         Product product1 = new Product();
         product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
@@ -58,7 +53,7 @@ public class PaymentServiceTest {
 
     @Test
     void testCreatePaymentValid() {
-        Payment newPayment = paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
+        Payment newPayment = this.paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
         assertNotNull(newPayment);
         assertEquals(newPayment.getStatus(), PaymentStatus.SUCCESS.getValue());
     }
@@ -80,14 +75,14 @@ public class PaymentServiceTest {
     }
 
     @Test
-    void testFindPaymentById() {
+    void testFindPaymentByIdNotFound() {
         Payment newPayment = paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
         Payment findedPayment = paymentService.getPayment("lbz");
         assertNull(findedPayment);
     }
 
     @Test
-    void testFindPaymentById() {
+    void testFindPaymentCurrentById() {
         Payment newPayment1 = paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
         Payment newPayment2 = paymentService.addPayment(orders.get(1), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
 

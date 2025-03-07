@@ -65,7 +65,6 @@ public class PaymentRepository {
             }
         }
 
-
         payments.add(payment);
         return payment;
     }
