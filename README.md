@@ -3,6 +3,20 @@
 [Modul 3](https://docs.google.com/document/d/1KbuvrUMLQCdxeQ9nMj-u-Q3YMop7kVmn/edit?rtpof=true&sd=true&tab=t.0)
 [Modul 4](https://docs.google.com/document/d/1-fsOyyajozE2QSV-QBEA_YR_ZZn9yhKr/edit?tab=t.0#heading=h.gjdgxs)
 
+# WEEK 4
+````
+Reflect based on Percival (2017) proposed self-reflective questions (in “Principles and Best Practice of Testing” submodule, chapter “Evaluating Your Testing Objectives”), whether this TDD flow is useful enough for you or not. If not, explain things that you need to do next time you make more tests.
+````
+After using the TDD framework in this exercise, I realize that it offers a significant advantage over a traditional development flow by encouraging more thorough thinking. Instead of jumping straight into implementation, TDD forces us to clearly define the expected behavior of our code before writing it. This approach helps structure development by serving as a roadmap, ensuring that every feature is intentionally designed and tested. By writing tests first, we gain a better understanding of what our code needs to do and can more effectively align our implementation with the desired functionality. This structured approach ultimately improves code quality and maintainability.
+
+However, TDD also has drawbacks, particularly in how it differs from the more intuitive approach of writing code first and testing later. It can feel unnatural at times, especially when dealing with complex logic that evolves during development. To improve my testing process in the future, I need to become more comfortable with this mindset by practicing writing tests earlier in my workflow. Additionally, I should focus on refining my test cases to cover more edge cases and ensure that they truly guide the implementation rather than simply confirming expected outputs. By embracing TDD more fully, I can develop a more disciplined and effective coding approach.
+````
+You have created unit tests in Tutorial. Now reflect whether your tests have successfully followed F.I.R.S.T. principle or not. If not, explain things that you need to do the next time you create more tests
+````
+The test suite for all of this tutorial and exercise largely adheres to the FIRST principles of unit testing. The tests are fast since they operate on an in-memory repository without external dependencies. They are also isolated, as each test runs independently with a fresh setup in the `@BeforeEach` method, preventing shared state issues. The tests are repeatable, consistently producing the same results due to controlled inputs. Additionally, they are self-validating, using assertions like `assertEquals` and `assertNull` to provide clear pass/fail outcomes. However, the timely aspect depends on when the tests were written—if they were created alongside or before the repository implementation, they align well with TDD; otherwise, they still add value but don't fully satisfy this principle.
+
+Some improvements can make the tests more robust. For instance, the case-sensitivity issue in `testFindAllByAuthorIfAllLowecase` suggests a potential expectation mismatch—if case insensitivity is required, the repository should be updated rather than assuming failure in the test. Adding edge cases, such as testing empty order lists or handling `null` values for author or order ID, would enhance coverage. Overall, the test suite is well-structured and adheres to best practices, with minor refinements needed to make it even more comprehensive.
+
 # WEEK 3
 ````
 1) Explain what principles you apply to your project!
