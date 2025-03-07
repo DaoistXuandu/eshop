@@ -103,4 +103,18 @@ class PaymentRepositoryTest {
         Payment findResult = paymentRepository.findById("zzz");
         assertNull(findResult);
     }
+
+    @Test
+    void testGetAllExistValue() {
+       List<Payment> allPayment = paymentRepository.getAll();
+       assertEquals(2, allPayment.size());
+    }
+
+    @Test
+    void testGetAllExistWithZero() {
+        PaymentRepository zero_value = new PaymentRepository();
+        List<Payment> allPayment = paymentRepository.getAll();
+        assertEquals(0, allPayment.size());
+    }
+
 }
