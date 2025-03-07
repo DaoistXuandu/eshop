@@ -22,26 +22,13 @@ public class Payment {
     public Payment(String id, String method, String status, Map<String, String> paymentData) {
         this.id = id;
 
-        if(paymentData == null) {
-            throw new IllegalArgumentException();
-        }
-        else {
-            this.paymentData = paymentData;
+        if(paymentData == null || !PaymentStatus.contains(status) || !PaymentMethod.contains(method)) {
+            throw new IllegalArgumentException("Invalid data binding");
         }
 
-        if(PaymentStatus.contains(status)) {
-            this.status = status;
-        }
-        else {
-            throw new IllegalArgumentException("Status is not valid");
-        }
-
-        if(PaymentMethod.contains(method)) {
-            this.method = method;
-        }
-        else{
-            throw new IllegalArgumentException("Method is not valid");
-        }
+        this.paymentData = paymentData;
+        this.status = status;
+        this.method = method;
     }
 
     public void setStatus(String status) {
