@@ -68,6 +68,12 @@ public class PaymentTest {
     }
 
     @Test
+    void testCreatePaymentInvalidStatus() {
+        assertThrows(IllegalArgumentException.class, () -> new Payment("13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.BANK_TRANSFER.getValue(), "xzz", bank_info));
+    }
+
+    @Test
     void testSetPaymentSuccessStatus() {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
                 PaymentMethod.BANK_TRANSFER.getValue(), PaymentStatus.PENDING.getValue(), bank_info);
@@ -76,7 +82,7 @@ public class PaymentTest {
     }
 
     @Test
-    void testCreatePaymentRejectedStatus() {
+    void testSetPaymentRejectedStatus() {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
                 PaymentMethod.BANK_TRANSFER.getValue(), PaymentStatus.PENDING.getValue(), bank_info);
         payment.setStatus(PaymentStatus.REJECTED.getValue());
@@ -84,7 +90,7 @@ public class PaymentTest {
     }
 
     @Test
-    void testCreatePaymentInvalidStatus() {
+    void testSetPaymentInvalidStatus() {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
                 PaymentMethod.BANK_TRANSFER.getValue(), PaymentStatus.PENDING.getValue(), bank_info);
 

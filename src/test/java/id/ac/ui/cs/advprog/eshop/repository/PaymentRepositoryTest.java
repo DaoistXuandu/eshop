@@ -106,14 +106,17 @@ class PaymentRepositoryTest {
 
     @Test
     void testGetAllExistValue() {
-       List<Payment> allPayment = paymentRepository.getAll();
-       assertEquals(2, allPayment.size());
+        paymentRepository.save(payments.get(0));
+        paymentRepository.save(payments.get(1));
+        List<Payment> allPayment = paymentRepository.getAll();
+        System.out.println(allPayment.size());
+        assertEquals(2, allPayment.size());
     }
 
     @Test
     void testGetAllExistWithZero() {
         PaymentRepository zero_value = new PaymentRepository();
-        List<Payment> allPayment = paymentRepository.getAll();
+        List<Payment> allPayment = zero_value.getAll();
         assertEquals(0, allPayment.size());
     }
 

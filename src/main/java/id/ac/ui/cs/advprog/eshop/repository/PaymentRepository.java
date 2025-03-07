@@ -32,4 +32,8 @@ public class PaymentRepository {
         }
         return null;
     }
+
+    public List<Payment> getAll() {
+        return payments;
+    }
 }
