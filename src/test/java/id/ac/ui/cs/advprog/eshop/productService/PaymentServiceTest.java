@@ -76,15 +76,15 @@ public class PaymentServiceTest {
 
     @Test
     void testFindPaymentByIdNotFound() {
-        Payment newPayment = paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
+        paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
         Payment findedPayment = paymentService.getPayment("lbz");
         assertNull(findedPayment);
     }
 
     @Test
     void testFindPaymentCurrentById() {
-        Payment newPayment1 = paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
-        Payment newPayment2 = paymentService.addPayment(orders.get(1), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
+        paymentService.addPayment(orders.get(0), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
+        paymentService.addPayment(orders.get(1), PaymentMethod.BANK_TRANSFER.getValue(), bank_info);
 
         List<Payment> getAll = paymentService.getAllPayments();
         assertNotNull(getAll);
