@@ -40,13 +40,15 @@ class PaymentRepositoryTest {
         Payment payment1 = new Payment("13652556-012a-4c07-b546-54eb1396d79c",
                 PaymentMethod.VOUCHER_CODE.getValue(), PaymentStatus.SUCCESS.getValue(), voucher_info);
 
-        payments.add(payment);
+        payments.add(payment1);
     }
 
     @Test
     void testSaveCreate() {
-        Payment payment = payments.get(0);
-        Payment result = paymentRepository.save(payment);
+        Payment payment0 = payments.get(1);
+        paymentRepository.save(payment0);
+        Payment payment1 = payments.get(0);
+        paymentRepository.save(payment1);
 
         Payment findResult = paymentRepository.findById(payments.get(0).getId());
         assertSame(this.bank_info, findResult.getPaymentData());
