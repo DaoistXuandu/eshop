@@ -63,8 +63,6 @@ public class PaymentTest {
 
     @Test
     void testCreatePaymentMethodInvalidStatus() {
-        Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "MEOW", PaymentStatus.SUCCESS.getValue(), voucher_info);
         assertThrows(IllegalArgumentException.class, () -> new Payment("13652556-012a-4c07-b546-54eb1396d79b",
                 "MEOW", PaymentStatus.SUCCESS.getValue(), voucher_info));
     }
@@ -73,20 +71,18 @@ public class PaymentTest {
     void testCreatePaymentSuccessStatus() {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
                 PaymentMethod.BANK_TRANSFER.getValue(), PaymentStatus.SUCCESS.getValue(), bank_info);
-        assertEquals(PaymentStatus.SUCCESS.getValue(), order.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
     void testCreatePaymentRejectedStatus() {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
                 PaymentMethod.BANK_TRANSFER.getValue(), PaymentStatus.REJECTED.getValue(), bank_info);
-        assertEquals(PaymentStatus.REJECTED.getValue(), order.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
     void testCreatePaymentInvalidStatus() {
-        Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                PaymentMethod.BANK_TRANSFER.getValue(), "MEOW", bank_info);
         assertThrows(IllegalArgumentException.class, () -> new Payment("13652556-012a-4c07-b546-54eb1396d79b",
                 PaymentMethod.BANK_TRANSFER.getValue(), "MEOW", bank_info));
     }
