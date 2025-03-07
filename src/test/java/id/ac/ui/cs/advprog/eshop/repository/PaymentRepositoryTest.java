@@ -208,7 +208,7 @@ class PaymentRepositoryTest {
     @Test
     void testSaveInvalidVoucherLimitNumericalDigit() {
         Map <String, String> currentVoucher = new HashMap<>();
-        String voucher_name = "ESHOP1234ABC01010";
+        String voucher_name = "ESHOP1234ABC00";
 
         currentVoucher.put("voucherCode", voucher_name);
         Payment payment = new Payment(
