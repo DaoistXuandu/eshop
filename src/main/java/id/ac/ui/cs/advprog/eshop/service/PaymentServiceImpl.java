@@ -27,14 +27,8 @@ public class PaymentServiceImpl implements PaymentService {
         Payment newPayment = new Payment(paymentId.toString(), method, PaymentStatus.PENDING.getValue(), paymentData);
         Payment currentPayment = paymentRepository.save(newPayment);
 
-        if(currentPayment.getStatus().equals(PaymentStatus.SUCCESS.getValue())) {
-            order.setStatus(OrderStatus.SUCCESS.getValue());
-        }
-        else{
-            order.setStatus(OrderStatus.FAILED.getValue());
-        }
-
         orderMap.put(currentPayment.getId(), order);
+        this.setStatus(currentPayment, currentPayment.getStatus());
 
         return currentPayment;
     }
